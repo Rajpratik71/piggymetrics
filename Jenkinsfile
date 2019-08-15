@@ -23,13 +23,5 @@ pipeline {
 
       }
     }
-    stage('Sonar scan') {
-      steps {
-        dir(path: 'config') {
-          sh 'mvn clean package sonar:sonar'
-        }
-
-      }
-    }
   }
 }
