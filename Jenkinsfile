@@ -7,10 +7,10 @@ pipeline {
 
   }
   stages {
-    stage('change dir') {
+    stage('build config') {
       steps {
         dir(path: 'config') {
-          powershell 'mvn clean install'
+          sh 'mvn -B -DskipTests clean package'
         }
 
       }
