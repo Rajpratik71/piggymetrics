@@ -3,7 +3,10 @@ pipeline {
   stages {
     stage('change dir') {
       steps {
-        dir(path: 'config')
+        dir(path: 'config') {
+          powershell 'mvn clean install'
+        }
+
       }
     }
   }
