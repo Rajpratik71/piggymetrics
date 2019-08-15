@@ -17,8 +17,10 @@ pipeline {
     }
     stage('Test ') {
       steps {
-        sh 'mvn test'
-        dir(path: 'config')
+        dir(path: 'config') {
+          sh 'mvn test'
+        }
+
       }
     }
   }
