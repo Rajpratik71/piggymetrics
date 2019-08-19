@@ -8,24 +8,20 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 10000
+            timeoutInMilliseconds: 5000
 
 eureka:
   instance:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://10.103.1.54:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 
 security:
   oauth2:
     resource:
-      user-info-uri: http://10.103.1.36:5000/uaa/users/current
+      user-info-uri: http://localhost:5000/uaa/users/current
 
 spring:
   rabbitmq:
-    host: 10.103.1.54
-  cloud:
-    inetutils:
-      preferredNetworks:
-        - 10.103
+    host: localhost

@@ -3,14 +3,14 @@ security:
     client:
       clientId: account-service
       clientSecret: root
-      accessTokenUri: http://10.103.1.36:5000/uaa/oauth/token
+      accessTokenUri: http://localhost:5000/uaa/oauth/token
       grant-type: client_credentials
       scope: server
 
 spring:
   data:
     mongodb:
-      host: 10.103.1.54
+      host: localhost
       username: user
       password: root
       database: piggymetrics

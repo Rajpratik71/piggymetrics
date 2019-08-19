@@ -33,3 +33,15 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
+  account-mongodb:
+    environment:
+      INIT_DUMP: account-service-dump.js
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    image: sqshq/piggymetrics-mongodb
+    ports:
+      - 26000:27017
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"

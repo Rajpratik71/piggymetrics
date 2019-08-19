@@ -1,0 +1,8 @@
+server:
+  servlet:
+    context-path: /intexsoft
+  port: 5546
+
+intexsoft-service:
+  name: Igor
+  surname: Molchan

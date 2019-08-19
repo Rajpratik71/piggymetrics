@@ -3,7 +3,7 @@ spring:
     name: registry
   cloud:
     config:
-      uri: http://10.103.1.54:8888
+      uri: http://localhost:8888
       fail-fast: true
       password: root
       username: user

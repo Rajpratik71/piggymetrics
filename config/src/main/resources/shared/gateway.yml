@@ -19,7 +19,7 @@ zuul:
   routes:
     auth-service:
         path: /uaa/**
-        url: http://10.103.1.36:5000
+        url: http://localhost:5000
         stripPrefix: false
         sensitiveHeaders:
 
@@ -40,6 +40,12 @@ zuul:
         serviceId: notification-service
         stripPrefix: false
         sensitiveHeaders:
+
+    intexsoft-service:
+      path: /intexsoft/**
+      serviceId: intexsoft-service
+      stripPrefix: false
+      sensitiveHeaders:
 
 server:
   port: 4000
