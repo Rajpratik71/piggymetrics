@@ -2,19 +2,19 @@ security:
   oauth2:
     client:
       clientId: account-service
-      clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
-      accessTokenUri: http://auth-service:5000/uaa/oauth/token
+      clientSecret: root
+      accessTokenUri: http://10.103.1.36:5000/uaa/oauth/token
       grant-type: client_credentials
       scope: server
 
 spring:
   data:
     mongodb:
-      host: account-mongodb
+      host: 10.103.1.54
       username: user
-      password: ${MONGODB_PASSWORD}
+      password: root
       database: piggymetrics
-      port: 27017
+      port: 26000
 
 server:
   servlet:
