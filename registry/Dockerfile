@@ -5,6 +5,6 @@ MAINTAINER guox <guox@goodrain.com>
 COPY . /app
 WORKDIR /app
 
-CMD ["java", "-Xmx200m","-Dserver.port=${PORT}","-jar", "/app/target/registry.jar"]
+CMD ["java", "-Xmx200m","-Dserver.port=8761","-jar", "/app/target/registry.jar"]
 
 EXPOSE 8761
