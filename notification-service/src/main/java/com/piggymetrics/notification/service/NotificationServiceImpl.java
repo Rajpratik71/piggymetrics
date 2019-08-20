@@ -27,7 +27,7 @@ public class NotificationServiceImpl implements NotificationService {
 	private EmailService emailService;
 
 	@Override
-	@Scheduled(cron = "${backup.cron}")
+//	@Scheduled(cron = "${backup.cron}")
 	public void sendBackupNotifications() {
 
 		final NotificationType type = NotificationType.BACKUP;
