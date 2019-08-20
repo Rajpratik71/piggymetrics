@@ -3,6 +3,8 @@ package com.piggymetrics.account.controller;
 import com.piggymetrics.account.domain.Account;
 import com.piggymetrics.account.domain.User;
 import com.piggymetrics.account.service.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.security.Principal;
 
 @RestController
 public class AccountController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 
 	@Autowired
 	private AccountService accountService;
@@ -24,7 +27,7 @@ public class AccountController {
 
 	@RequestMapping(path = "/current", method = RequestMethod.GET)
 	public Account getCurrentAccount(Principal principal) {
-		System.out.println("userName:"+principal.getName());
+		LOGGER.info("userName:"+principal.getName());
 		return accountService.findByName(principal.getName());
 	}
 
