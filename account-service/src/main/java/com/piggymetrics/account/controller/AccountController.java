@@ -24,6 +24,7 @@ public class AccountController {
 
 	@RequestMapping(path = "/current", method = RequestMethod.GET)
 	public Account getCurrentAccount(Principal principal) {
+		System.out.println("userName:"+principal.getName());
 		return accountService.findByName(principal.getName());
 	}
 
