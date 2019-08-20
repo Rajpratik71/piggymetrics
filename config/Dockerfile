@@ -1,16 +1,9 @@
-FROM goodrainapps/maven:jdk8-alpine
-MAINTAINER guox <guox@goodrain.com>
+FROM java:8-jre
+MAINTAINER Alexander Lukyanchikov <sqshq@sqshq.com>
 
-# Caching Maven dependencies
-COPY *.xml /app/
-WORKDIR /app
-RUN mvn -s maven-settings.xml  verify clean -Dmaven.repo.local=/tmp/cache --fail-never
+ADD ./target/config.jar /app/
+CMD ["java", "-Xmx200m", "-jar", "/app/config.jar"]
 
-# package
-COPY . /app
-RUN mvn -s maven-settings.xml -B -DskipTests=true -Dmaven.repo.local=/tmp/cache clean install
-
-ENV PORT=8888
-CMD ["java", "-Xmx200m", "-Dserver.port=${PORT}","-jar", "/app/target/config.jar"]
+HEALTHCHECK --interval=30s --timeout=30s CMD curl -f http://localhost:8888/actuator/health || exit 1
 
 EXPOSE 8888
