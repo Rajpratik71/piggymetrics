@@ -2,7 +2,7 @@ FROM mongo:3
 MAINTAINER Alexander Lukyanchikov <sqshq@sqshq.com>
 
 COPY init.sh /init.sh
-ADD ./dump /
+# ADD ./dump /
 
 RUN \
  chmod +x /init.sh && \
