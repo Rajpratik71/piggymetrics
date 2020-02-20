@@ -41,23 +41,23 @@ spec:
       containers:
       - env:
         - name: CONFIG_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: config_service_password
         - name: MONGODB_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: statistics_mongodb_password
         - name: STATISTICS_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: statistics_service_password
         ports:
           - containerPort: 7000
-        image: afermon/piggymetrics-statistics-service
+        image: jc8futao/piggy-statistics-service:1.0-SNAPSHOT
         name: statistics-service
         resources: {}
       restartPolicy: Always

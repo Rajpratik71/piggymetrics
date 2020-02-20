@@ -9,7 +9,7 @@ metadata:
   name: gateway
 spec:
   # comment or delete the following line if you want to use a LoadBalancer
-  type: NodePort 
+  type: NodePort
   # if your cluster supports it, uncomment the following to automatically create
   # an external load-balanced IP for the frontend service.
   # type: LoadBalancer
@@ -48,12 +48,11 @@ spec:
       - name: gateway
         env:
         - name: CONFIG_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: config_service_password
-        image: afermon/piggymetrics-gateway
-        
+        image: jc8futao/piggy-gateway:1.0-SNAPSHOT
         ports:
         - containerPort: 4000
       restartPolicy: Always

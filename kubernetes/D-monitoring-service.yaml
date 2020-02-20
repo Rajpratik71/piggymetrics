@@ -43,11 +43,11 @@ spec:
       containers:
       - env:
         - name: CONFIG_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: config_service_password
-        image: afermon/piggymetrics-monitoring
+        image: jc8futao/piggy-monitoring:0.0.1-SNAPSHOT
         name: monitoring
         ports:
         - containerPort: 8080

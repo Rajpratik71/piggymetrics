@@ -41,11 +41,11 @@ spec:
       containers:
       - env:
         - name: CONFIG_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: config_service_password
-        image: afermon/piggymetrics-registry
+        image: jc8futao/piggy-registry:0.0.1-SNAPSHOT
         name: registry
         ports:
         - containerPort: 8761

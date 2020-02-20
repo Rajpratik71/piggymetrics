@@ -29,7 +29,7 @@ metadata:
   name: auth-service
 spec:
   replicas: 1
-  strategy: 
+  strategy:
     type: RollingUpdate
   template:
     metadata:
@@ -41,31 +41,31 @@ spec:
       containers:
       - env:
         - name: ACCOUNT_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: account_service_password
         - name: CONFIG_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: config_service_password
         - name: MONGODB_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: auth_mongodb_password
         - name: NOTIFICATION_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: notification_service_password
         - name: STATISTICS_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: statistics_service_password
-        image: afermon/piggymetrics-auth-service
+        image: jc8futao/piggy-auth-service:1.0-SNAPSHOT
         name: auth-service
         ports:
           - containerPort: 5000

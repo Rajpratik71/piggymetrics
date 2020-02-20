@@ -29,11 +29,11 @@ metadata:
   name: notification-service
 spec:
   replicas: 1
-  strategy: 
+  strategy:
     type: RollingUpdate
   template:
     metadata:
-      labels:       
+      labels:
         project: piggymetrics
         tier: backend
         app: notification-service
@@ -41,43 +41,43 @@ spec:
       containers:
       - env:
         - name: CONFIG_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: config_service_password
         - name: MONGODB_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: notification_mongodb_password
         - name: NOTIFICATION_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: notification_service_password
         - name: NOTIFICATION_EMAIL_HOST
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: notification_email_host
         - name: NOTIFICATION_EMAIL_PORT
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: notification_email_port
         - name: NOTIFICATION_EMAIL_USER
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: notification_email_user
         - name: NOTIFICATION_EMAIL_PASS
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: notification_email_pass
         ports:
           - containerPort: 8000
-        image: afermon/piggymetrics-notification-service
+        image: jc8futao/piggy-notification-service:1.0.0-SNAPSHOT
         name: notification-service
         resources: {}
       restartPolicy: Always

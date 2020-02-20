@@ -44,11 +44,11 @@ spec:
       containers:
       - env:
         - name: CONFIG_SERVICE_PASSWORD
-          valueFrom: 
+          valueFrom:
             secretKeyRef:
               name: piggymetrics
               key: config_service_password
-        image: afermon/piggymetrics-turbine-stream-service
+        image: jc8futao/piggy-turbine-stream-service:0.0.1-SNAPSHOT
         name: turbine-stream-service
         ports:
         - containerPort: 8989
