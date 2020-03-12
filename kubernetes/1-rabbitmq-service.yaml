@@ -1,5 +1,18 @@
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+  namespace: piggymetrics
+data:
+  enabled_plugins: |
+    [rabbitmq_management,rabbitmq_peer_discovery_k8s,rabbitmq_prometheus].
+  rabbitmq.conf: |
+    loopback_users.guest = false
+    listeners.tcp.default = 5672
+    management.tcp.port = 15672
+---
+apiVersion: v1
 kind: Service
 metadata:
   labels:
@@ -12,6 +25,9 @@ spec:
   - name: http
     port: 15672
     targetPort: 15672
+  - name: monitor
+    port: 15692
+    targetPort: 15692
   - name: amqp
     port: 5672
     targetPort: 5672
@@ -44,9 +60,22 @@ spec:
       containers:
       - image: rabbitmq:3-management
         name: rabbitmq
+        volumeMounts:
+          - name: config-volume
+            mountPath: /etc/rabbitmq
         ports:
         - containerPort: 15672
+        - containerPort: 15692
         - containerPort: 5672
         resources: {}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: rabbitmq-config
+            items:
+              - key: enabled_plugins
+                path: enabled_plugins
+              - key: rabbitmq.conf
+                path: rabbitmq.conf
       restartPolicy: Always
 status: {}
