@@ -2,17 +2,18 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: rabbitmq-monitor
+  name: mongo-monitor
   labels:
-    app: rabbitmq
+    app: piggy-mongodb-exporter
   namespace: piggymetrics
 spec:
   endpoints:
     - honorLabels: false
       interval: 15s
       path: /metrics
-      port: monotir
+      port: mongodb-monitor
       scheme: http
   selector:
     matchLabels:
-      app: rabbitmq
+      project: piggymetrics
+      app: piggy-mongodb-exporter

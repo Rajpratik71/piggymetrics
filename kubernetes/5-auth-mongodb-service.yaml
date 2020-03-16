@@ -37,7 +37,7 @@ spec:
         app: auth-mongodb
     spec:
       containers:
-      - image: centos/mongodb-32-centos7
+      - image: jc8futao/piggy-mongodb:latest
         name: auth-mongodb
         env:
           - name: MONGODB_ADMIN_PASSWORD
