@@ -8,13 +8,19 @@ spring:
       password: ${CONFIG_SERVICE_PASSWORD}
       username: user
   sleuth:
-    web:
-      client:
+    feign:
+      enabled: true
+      processor:
         enabled: true
+    enabled: true
     sampler:
       probability: 1.0
   zipkin:
-    base-url: http://127.0.0.1:9411/
+    base-url: http://zipkin:9411/
+    service:
+      name: account-service
+    enabled: true
+
 management:
   endpoints:
     web:
@@ -23,3 +29,11 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG

@@ -8,13 +8,14 @@ spring:
       password: ${CONFIG_SERVICE_PASSWORD}
       username: user
   sleuth:
-    web:
-      client:
-        enabled: true
     sampler:
       probability: 1.0
+    enabled: true
   zipkin:
-    base-url: http://127.0.0.1:9411/
+    base-url: http://zipkin:9411/
+    service:
+      name: ${spring.application.name}
+    enabled: true
 management:
   endpoints:
     web:
