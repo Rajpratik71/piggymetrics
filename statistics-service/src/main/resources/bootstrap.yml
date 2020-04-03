@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: statistics-service
   cloud:
@@ -24,3 +26,11 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG

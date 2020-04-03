@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: account-service
   cloud:
@@ -18,8 +20,9 @@ spring:
   zipkin:
     base-url: http://zipkin:9411/
     service:
-      name: account-service
+      name: ${spring.application.name}
     enabled: true
+
 
 management:
   endpoints:
