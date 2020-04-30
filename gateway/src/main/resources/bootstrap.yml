@@ -13,7 +13,7 @@ spring:
     zuul:
       enabled: true
   zipkin:
-    base-url: http://zipkin:9411/
+    base-url: http://9.98.30.76:32411/
     service:
       name: ${spring.application.name}
 
