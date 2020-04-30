@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin-service
+  labels:
+    project: soc-openshift
+    tier: database
+    monitor: zipkin
+    app: piggy-mongodb-exporter
+    service: zipkin
+spec:
+  ports:
+    - name: zipkin
+      port: 9411
+      targetPort: 9411
+      nodePort: 32411
+  type: NodePort
+  selector:
+    project: soc-openshift
+    tier: database
+    app: zipkin
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zipkin-server
+  labels:
+    project: soc-openshift
+    tier: database
+    service: zipkin
+    app: zipkin
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        project: soc-openshift
+        tier: database
+        app: zipkin-server
+    spec:
+      containers:
+        - image: openzipkin/zipkin
+          name: zipkin-server
+          ports:
+            - containerPort: 9411
+          resources: {}
+      restartPolicy: Always
+status: {}
