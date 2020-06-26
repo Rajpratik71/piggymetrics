@@ -6,9 +6,11 @@ name: Infra CI
 # events but only for the master branch
 on:
   push:
-    branches: [ blah ]
+    branches: [ Azure ]
+    paths:
+    - 'arm/**'
   pull_request:
-    branches: [ blah ]
+    branches: [ Azure ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
