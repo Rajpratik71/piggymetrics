@@ -1,14 +1,14 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Infra CI
+name: App CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   push:
-    branches: [ blah ]
+    branches: [ Azure ]
   pull_request:
-    branches: [ blah ]
+    branches: [ Azure ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -27,9 +27,19 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
 
       - name: Deploy ARM Template
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az deployment group create --resource-group private-spring-cloud --template-file ./arm/azuredeploy.json --mode incremental
+            az configure --defaults group=private-spring-cloud
+            az configure --defaults spring-cloud=mg-spring-cloud
+            az spring-cloud app create -n gateway
+            az spring-cloud app deploy -n gateway --jar-path ./gateway/target/gateway.jar
+            az spring-cloud app create -n account-service
+            az spring-cloud app deploy -n account-service --jar-path ./account-service/target/account-service.jar
+            az spring-cloud app create -n auth-service
+            az spring-cloud app deploy -n auth-service --jar-path ./auth-service/target/auth-service.jar
