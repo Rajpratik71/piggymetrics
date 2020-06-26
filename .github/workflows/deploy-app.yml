@@ -33,10 +33,11 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      - name: Deploy ARM Template
+      - name: Deploy Microservices
         uses: azure/CLI@v1
         with:
           inlineScript: |
+            az extension add --name spring-cloud
             az configure --defaults group=private-spring-cloud
             az configure --defaults spring-cloud=mg-spring-cloud
             az spring-cloud app create -n gateway
