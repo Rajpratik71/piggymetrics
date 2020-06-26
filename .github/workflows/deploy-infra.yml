@@ -28,9 +28,24 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Deploy ARM Template
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az deployment group create --resource-group private-spring-cloud --template-file ./arm/azuredeploy.json --mode incremental
+      
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
 
       - name: Deploy ARM Template
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az deployment group create --resource-group private-spring-cloud --template-file ./arm/azuredeploy.json --mode incremental 
+            az configure --defaults group=private-spring-cloud
+            az configure --defaults spring-cloud=mg-spring-cloud
+            az spring-cloud app create -n gateway
+            az spring-cloud app deploy -n gateway --jar-path ./gateway/target/gateway.jar
+            az spring-cloud app create -n account-service
+            az spring-cloud app deploy -n account-service --jar-path ./account-service/target/account-service.jar
+            az spring-cloud app create -n auth-service
+            az spring-cloud app deploy -n auth-service --jar-path ./auth-service/target/auth-service.jar
