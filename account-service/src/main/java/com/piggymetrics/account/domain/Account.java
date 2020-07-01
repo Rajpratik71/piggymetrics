@@ -2,35 +2,48 @@ package com.piggymetrics.account.domain;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Document(collection = "accounts")
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Account {
+@Entity
+@Table(name = "account")
+public class Account implements java.io.Serializable{
 
+
+	private static final long serialVersionUID = -8090029402846296704L;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	@Column
 	private String name;
 
+	@Column
 	private Date lastSeen;
 
-	@Valid
+	@Column
+	private String note;
+
+	@OneToMany(mappedBy="account")
 	private List<Item> incomes;
 
-	@Valid
+	@OneToMany(mappedBy="account")
 	private List<Item> expenses;
 
-	@Valid
-	@NotNull
+	@OneToOne(mappedBy = "account",targetEntity = Saving.class,fetch = FetchType.LAZY)
 	private Saving saving;
 
-	@Length(min = 0, max = 20_000)
-	private String note;
+	public Account(){}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;

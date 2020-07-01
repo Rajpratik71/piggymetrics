@@ -2,26 +2,49 @@ package com.piggymetrics.account.domain;
 
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
-public class Item {
+@Entity
+@Table(name="item")
+public class Item implements java.io.Serializable{
 
-	@NotNull
-	@Length(min = 1, max = 20)
+
+	private static final long serialVersionUID = -5447477886745371470L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	@Column
 	private String title;
 
-	@NotNull
+	@Column
 	private BigDecimal amount;
 
-	@NotNull
+	@Column
+	@Enumerated(EnumType.STRING)
 	private Currency currency;
 
-	@NotNull
+	@Column
+	@Enumerated(EnumType.STRING)
 	private TimePeriod period;
 
-	@NotNull
+	@Column
 	private String icon;
+
+	@ManyToOne
+	@JoinColumn(name = "account_id")
+	private Account account;
+
+	public Item(){}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getTitle() {
 		return title;
@@ -61,5 +84,13 @@ public class Item {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 }

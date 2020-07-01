@@ -30,7 +30,7 @@ public class UserRepositoryTest {
 		user.setPassword("password");
 		repository.save(user);
 
-		Optional<User> found = repository.findById(user.getUsername());
+		Optional<User> found = repository.findByUsername(user.getUsername());
 		assertTrue(found.isPresent());
 		assertEquals(user.getUsername(), found.get().getUsername());
 		assertEquals(user.getPassword(), found.get().getPassword());
