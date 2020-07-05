@@ -1,6 +1,7 @@
 package com.piggymetrics.account.client;
 
 import com.piggymetrics.account.domain.Account;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;

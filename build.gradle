@@ -61,6 +61,10 @@ subprojects {
 		implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
 	}
 
+	test {
+		useJUnitPlatform()
+	}
+
 	jar {
 		enabled = true
 	}
