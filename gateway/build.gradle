@@ -1,0 +1,10 @@
+dependencies {
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-zuul:${spring_cloud_version}"
+    implementation "org.springframework.cloud:spring-cloud-starter-config:${spring_cloud_version}"
+    implementation "org.springframework.cloud:spring-cloud-starter:${spring_cloud_version}"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${spring_cloud_version}"
+    implementation "org.springframework.cloud:spring-cloud-starter-sleuth:${spring_cloud_version}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:2.0.3.RELEASE"
+}
+
+description = "gateway"
