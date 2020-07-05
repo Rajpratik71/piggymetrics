@@ -1,17 +1,11 @@
-plugins {
-	id 'org.springframework.boot' version "${spring_boot_version}"
-	id 'io.spring.dependency-management' version "${spring_dependency_management}"
-	id 'java'
-}
-
 dependencies {
-	implementation "org.springframework.cloud:spring-cloud-starter-oauth2:${spring_cloud_version}"
-	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${spring_cloud_version}"
-	implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${spring_cloud_version}"
-	implementation "org.springframework.cloud:spring-cloud-starter-sleuth:${spring_cloud_version}"
-	implementation "org.springframework.cloud:spring-cloud-starter-bus-amqp:${spring_cloud_version}"
-	implementation "org.springframework.cloud:spring-cloud-netflix-hystrix-stream:${spring_cloud_version}"
-	implementation "org.springframework.cloud:spring-cloud-starter-config:${spring_cloud_version}"
+	implementation "org.springframework.cloud:spring-cloud-starter-oauth2"
+	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+	implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+	implementation "org.springframework.cloud:spring-cloud-starter-sleuth"
+	implementation "org.springframework.cloud:spring-cloud-starter-bus-amqp"
+	implementation "org.springframework.cloud:spring-cloud-netflix-hystrix-stream"
+	implementation "org.springframework.cloud:spring-cloud-starter-config"
 
 	implementation "org.springframework.boot:spring-boot-starter-mail"
 	implementation "org.springframework.boot:spring-boot-starter-web"
