@@ -6,7 +6,7 @@ plugins {
 
 dependencies {
     implementation "org.springframework.cloud:spring-cloud-config-server:${spring_cloud_version}"
-    implementation "org.springframework.boot:spring-boot-starter-security:${spring_boot_version}"
+    implementation "org.springframework.boot:spring-boot-starter-security"
 }
 
 description = "config"
