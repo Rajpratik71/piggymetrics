@@ -4,7 +4,7 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 20000
+            timeoutInMilliseconds: 0000
 
 ribbon:
   ReadTimeout: 20000
@@ -19,7 +19,7 @@ zuul:
   routes:
     auth-service:
         path: /uaa/**
-        url: http://auth-service:5000
+        url: http://127.0.0.1:5000
         stripPrefix: false
         sensitiveHeaders:
 
