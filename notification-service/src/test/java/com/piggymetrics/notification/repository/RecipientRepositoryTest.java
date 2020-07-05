@@ -1,25 +1,24 @@
 package com.piggymetrics.notification.repository;
 
+import java.util.Date;
+import java.util.List;
+
 import com.google.common.collect.ImmutableMap;
 import com.piggymetrics.notification.domain.Frequency;
 import com.piggymetrics.notification.domain.NotificationSettings;
 import com.piggymetrics.notification.domain.NotificationType;
 import com.piggymetrics.notification.domain.Recipient;
 import org.apache.commons.lang.time.DateUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-@RunWith(SpringRunner.class)
 @DataMongoTest
 public class RecipientRepositoryTest {
 

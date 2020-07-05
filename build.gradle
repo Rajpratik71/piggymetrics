@@ -1,33 +1,35 @@
 allprojects {
-    group = 'com.piggymetrics'
-    version = '1.0-SNAPSHOT'
+	group = 'com.piggymetrics'
+	version = '1.0-SNAPSHOT'
+
+	repositories {
+		mavenCentral()
+	}
 }
 
 subprojects {
-    apply plugin: 'java'
-    apply plugin: 'maven-publish'
+	apply plugin: 'java'
+	apply plugin: 'maven-publish'
 
-    repositories {
-        mavenLocal()
+	repositories {
+		mavenCentral()
 		jcenter()
-        maven {
-            url = uri('http://repo.maven.apache.org/maven2')
+		maven {
+			url = uri('https://repo.spring.io/snapshot')
+			url = uri('https://repo.spring.io/milestone')
+			url = uri('http://repo.maven.apache.org/maven2')
 			url = uri('https://jitpack.io')
+		}
+	}
 
-        }
-    }
+	sourceCompatibility = '1.8'
 
-    sourceCompatibility = '1.8'
+	tasks.withType(JavaCompile) {
+		options.encoding = 'UTF-8'
+	}
 
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                from(components.java)
-            }
-        }
-    }
+	jar {
+		enabled = true
+	}
 
-    tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
-    }
 }

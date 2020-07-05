@@ -1,6 +1,12 @@
+plugins {
+	id 'org.springframework.boot' version "${spring_boot_version}"
+	id 'io.spring.dependency-management' version "${spring_dependency_management}"
+	id 'java'
+}
+
 dependencies {
     implementation "org.springframework.cloud:spring-cloud-config-server:${spring_cloud_version}"
-    implementation "org.springframework.boot:spring-boot-starter-security:2.0.3.RELEASE"
+    implementation "org.springframework.boot:spring-boot-starter-security:${spring_boot_version}"
 }
 
 description = "config"

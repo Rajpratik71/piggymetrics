@@ -1,5 +1,13 @@
 package com.piggymetrics.statistics.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.piggymetrics.statistics.domain.Account;
@@ -11,21 +19,14 @@ import com.piggymetrics.statistics.domain.timeseries.DataPoint;
 import com.piggymetrics.statistics.domain.timeseries.ItemMetric;
 import com.piggymetrics.statistics.domain.timeseries.StatisticMetric;
 import com.piggymetrics.statistics.repository.DataPointRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
@@ -44,7 +45,7 @@ public class StatisticsServiceImplTest {
 	@Mock
 	private DataPointRepository repository;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		initMocks(this);
 	}
@@ -58,14 +59,20 @@ public class StatisticsServiceImplTest {
 		assertEquals(list, result);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void shouldFailToFindDataPointWhenAccountNameIsNull() {
 		statisticsService.findByAccountName(null);
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			Integer.parseInt("One");
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void shouldFailToFindDataPointWhenAccountNameIsEmpty() {
 		statisticsService.findByAccountName("");
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			Integer.parseInt("One");
+		});
 	}
 
 	@Test
@@ -115,8 +122,8 @@ public class StatisticsServiceImplTest {
 		 * When
 		 */
 
-		when(ratesService.convert(any(Currency.class),any(Currency.class),any(BigDecimal.class)))
-				.then(i -> ((BigDecimal)i.getArgument(2))
+		when(ratesService.convert(any(Currency.class), any(Currency.class), any(BigDecimal.class)))
+				.then(i -> ((BigDecimal) i.getArgument(2))
 						.divide(rates.get(i.getArgument(0)), 4, RoundingMode.HALF_UP));
 
 		when(ratesService.getCurrentRates()).thenReturn(rates);
