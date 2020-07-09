@@ -39,6 +39,7 @@ spec:
         tier: database
         app: auth-mongodb
     spec:
+      serviceAccountName: mongouser
       containers:
       - image: jc8futao/piggy-mongodb:latest
         name: auth-mongodb

@@ -16,4 +16,4 @@ spec:
   selector:
     matchLabels:
       project: piggymetrics
-      app: piggy-mongodb-exporter
+      app: auth-mongodb
