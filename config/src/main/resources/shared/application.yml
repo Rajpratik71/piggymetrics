@@ -23,6 +23,8 @@ security:
       user-info-uri: http://127.0.0.1:5000/uaa/users/current
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   rabbitmq:
     host: 127.0.0.1
     username: dev

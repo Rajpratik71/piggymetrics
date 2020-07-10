@@ -64,6 +64,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 	public OAuth2Authentication loadAuthentication(String accessToken)
 			throws AuthenticationException, InvalidTokenException {
 		Map<String, Object> map = getMap(this.userInfoEndpointUrl, accessToken);
+		map.put("authorities",Collections.singletonList("user"));
 		if (map.containsKey("error")) {
 			this.logger.debug("userinfo returned error: " + map.get("error"));
 			throw new InvalidTokenException(accessToken);
@@ -97,7 +98,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 
 		String clientId = (String) request.get("clientId");
 		Set<String> scope = new LinkedHashSet<>(request.containsKey("scope") ?
-				(Collection<String>) request.get("scope") : Collections.<String>emptySet());
+				((LinkedHashMap<String,String>) request.get("scope") ).values(): Collections.<String>emptySet());
 
 		return new OAuth2Request(null, clientId, null, true, new HashSet<>(scope),
 				null, null, null, null);
