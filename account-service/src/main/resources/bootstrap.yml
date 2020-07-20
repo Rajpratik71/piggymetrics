@@ -40,3 +40,4 @@ logging:
         web:
           servlet:
             DispatcherServlet: DEBUG
+  config: classpath:log4j2.yml

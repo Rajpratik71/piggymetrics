@@ -28,7 +28,7 @@ metadata:
     app: account-service
   name: account-service
 spec:
-  replicas: 1
+  replicas: 3
   strategy:
     type: RollingUpdate
   template:
