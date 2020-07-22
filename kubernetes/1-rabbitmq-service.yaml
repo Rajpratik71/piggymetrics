@@ -63,8 +63,6 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: /etc/rabbitmq
-            - name: rules-volume
-              mountPath: /rules
           ports:
           - containerPort: 15672
           - containerPort: 15692

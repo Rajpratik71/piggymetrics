@@ -23,3 +23,6 @@ server:
 
 rates:
   url: https://api.exchangeratesapi.io
+
+logging:
+  config: classpath:log4j2.yml

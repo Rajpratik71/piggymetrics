@@ -260,6 +260,18 @@ If you'd like to build images yourself (with some changes in the code, for examp
 
 If you'd like to start applications in Intellij Idea you need to either use [EnvFile plugin](https://plugins.jetbrains.com/plugin/7861-envfile) or manually export environment variables listed in `.env` file (make sure they were exported: `printenv`)
 
+### Docker plugin
+We are using dockerfile-maven-plugin for docker building and pushing. 
+
+Build
+` mvn clean package -DskipTests `
+
+Pushing
+` mvn deploy`  or ` mvn dockerfile:push`
+
+If you want to add auth info
+` mvn dockerfile:push -Ddockerfile.username=jc8futao -Ddockerfile.password=xxxx`
+
 #### Important endpoints
 - http://localhost:80 - Gateway
 - http://localhost:8761 - Eureka Dashboard
