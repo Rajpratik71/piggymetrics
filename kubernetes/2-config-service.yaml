@@ -45,7 +45,7 @@ spec:
             secretKeyRef:
               name: piggymetrics
               key: config_service_password
-        image: jc8futao/piggy-config:1.0.0-SNAPSHOT
+        image: jc8futao/piggy-config:1.0.2-SNAPSHOT
         name: config
         ports:
         - containerPort: 8888
