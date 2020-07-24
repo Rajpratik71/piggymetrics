@@ -14,4 +14,3 @@ Configuration:
       level: all   #日志输出级别
       AppenderRef:
         - ref: CONSOLE
-        - ref: ROLLING_FILE
