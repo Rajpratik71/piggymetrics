@@ -9,13 +9,13 @@ spring:
       fail-fast: true
       password: ${CONFIG_SERVICE_PASSWORD}
       username: user
-  sleuth:
-    sampler:
-      probability: 1.0
-  zipkin:
-    base-url: http://9.98.30.76:32411/
-    service:
-      name: ${spring.application.name}
+#  sleuth:
+#    sampler:
+#      probability: 1.0
+#  zipkin:
+#    base-url: http://9.98.30.76:32411/
+#    service:
+#      name: ${spring.application.name}
 management:
   endpoints:
     web:
