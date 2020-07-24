@@ -283,6 +283,18 @@ All Spring Boot applications require already running [Config Server](https://git
 
 Also, Service Discovery mechanism needs some time after all applications startup. Any service is not available for discovery by clients until the instance, the Eureka server and the client all have the same metadata in their local cache, so it could take 3 heartbeats. Default heartbeat period is 30 seconds.
 
+## Json Logs
+Using log4j2 to generate json formatted logs.
+
+### fix log4j2 and jboss-logging confilict issue
+1. add JVM param ` -Dorg.jboss.logging.provider=slf4j`
+2. add dependency
+```      
+        <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+```
 ## Contributions are welcome!
 
 PiggyMetrics is open source, and would greatly appreciate your help. Feel free to suggest and implement improvements.
