@@ -77,7 +77,7 @@ spec:
               key: notification_email_pass
         ports:
           - containerPort: 8000
-        image: jc8futao/piggy-notification-service:1.0.0-SNAPSHOT
+        image: jc8futao/piggy-notification-service:1.0.1-SNAPSHOT
         name: notification-service
         resources: {}
       restartPolicy: Always
