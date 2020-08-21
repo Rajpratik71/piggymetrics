@@ -1,0 +1,43 @@
+name: PiggyMetrics.Account-Service
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  CONTAINER_BUILD:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
+    - name: docker login to github packages
+      run: |
+        docker login docker.pkg.github.com -u srivatsamarichi -p ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Install Trivy
+      run: |
+        #!/bin/bash
+        sudo apt-get install wget apt-transport-https gnupg lsb-release
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt-get update
+        sudo apt-get install trivy
+        echo $HOME/Library/Caches
+        
+    - name: build, scan and tag image
+      run: |
+        docker build -f $GITHUB_WORKSPACE/account-service/Dockerfile -t docker.pkg.github.com/srivatsamarichi/piggymetrics/piggymetrics-account-service:${{ github.run_number }} .
+        trivy --exit-code 0 --severity MEDIUM,HIGH docker.pkg.github.com/srivatsamarichi/piggymetrics/piggymetrics-account-service:${{ github.run_number }}
+       # docker tag piggymetrics-account-service:${{ github.run_number }} docker.pkg.github.com/srivatsamarichi/piggymetrics-account-service:${{ github.run_number }}
+   
+    - name: push image
+      run: |
+        docker push docker.pkg.github.com/srivatsamarichi/piggymetrics/piggymetrics-account-service:${{ github.run_number }}
