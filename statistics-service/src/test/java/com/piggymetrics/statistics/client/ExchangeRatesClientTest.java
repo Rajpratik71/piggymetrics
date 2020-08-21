@@ -1,19 +1,18 @@
 package com.piggymetrics.statistics.client;
 
-import com.piggymetrics.statistics.domain.Currency;
-import com.piggymetrics.statistics.domain.ExchangeRatesContainer;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.piggymetrics.statistics.domain.Currency;
+import com.piggymetrics.statistics.domain.ExchangeRatesContainer;
+import org.junit.jupiter.api.Test;
 
-@RunWith(SpringRunner.class)
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+
 @SpringBootTest
 public class ExchangeRatesClientTest {
 

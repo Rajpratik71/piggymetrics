@@ -1,0 +1,26 @@
+dependencies {
+
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	implementation "org.springframework.cloud:spring-cloud-starter-config"
+	implementation "org.springframework.cloud:spring-cloud-starter-oauth2"
+	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+	implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+	implementation "org.springframework.cloud:spring-cloud-starter-sleuth"
+
+	implementation "org.springframework.cloud:spring-cloud-starter-bus-amqp"
+	implementation "org.springframework.cloud:spring-cloud-netflix-hystrix-stream"
+
+	implementation "org.springframework.boot:spring-boot-starter-web"
+	implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
+	implementation "org.springframework.boot:spring-boot-starter-actuator"
+
+	implementation "com.google.guava:guava:${google_guava_version}"
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.3"
+	testImplementation "com.jayway.jsonpath:json-path:2.2.0"
+}
+
+description = "statistics-service"
