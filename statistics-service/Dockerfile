@@ -1,7 +1,12 @@
-FROM java:8-jre
-MAINTAINER Alexander Lukyanchikov <sqshq@sqshq.com>
+FROM goodrainapps/maven:jdk8-alpine
+MAINTAINER guox <guox@goodrain.com>
 
-ADD ./target/statistics-service.jar /app/
-CMD ["java", "-Xmx200m", "-jar", "/app/statistics-service.jar"]
+# Caching Maven dependencies
+WORKDIR /app
+
+# package
+COPY . /app
+
+CMD ["java", "-Xmx200m", "-jar", "/app/target/statistics-service.jar"]
 
 EXPOSE 7000

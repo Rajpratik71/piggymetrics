@@ -1,8 +1,8 @@
 #!/bin/bash
-if test -z "$MONGODB_PASSWORD"; then
-    echo "MONGODB_PASSWORD not defined"
-    exit 1
-fi
+#if test -z "$MONGODB_PASSWORD"; then
+#    echo "MONGODB_PASSWORD not defined"
+#    exit 1
+#fi
 
 auth="-u user -p $MONGODB_PASSWORD"
 

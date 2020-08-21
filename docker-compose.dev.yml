@@ -1,13 +1,14 @@
 version: '2.1'
 services:
   rabbitmq:
+    image: rabbitmq:3-management
     ports:
       - 5672:5672
 
   config:
     build: config
     ports:
-      - 8888:8888
+      - 8889:8888
 
   registry:
     build: registry

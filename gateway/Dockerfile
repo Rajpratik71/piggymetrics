@@ -1,7 +1,13 @@
-FROM java:8-jre
-MAINTAINER Alexander Lukyanchikov <sqshq@sqshq.com>
+FROM goodrainapps/maven:jdk8-alpine
+MAINTAINER guox <guox@goodrain.com>
 
-ADD ./target/gateway.jar /app/
-CMD ["java", "-Xmx200m", "-jar", "/app/gateway.jar"]
+# Caching Maven dependencies
+WORKDIR /app
+
+# package
+COPY . /app
+
+ENV PORT=4000
+CMD ["java", "-Xmx200m","-Dserver.port=${PORT}","-jar", "/app/target/gateway.jar"]
 
 EXPOSE 4000

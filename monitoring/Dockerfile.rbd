@@ -7,6 +7,6 @@ WORKDIR /app
 # package
 COPY . /app
 
-CMD ["java", "-Xmx200m", "-jar", "/app/target/auth-service.jar"]
+CMD ["java", "-Xmx200m", "-jar", "/app/target/monitoring.jar"]
 
-EXPOSE 5000
+EXPOSE 8989 8080

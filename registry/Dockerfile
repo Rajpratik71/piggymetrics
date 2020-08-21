@@ -1,7 +1,10 @@
-FROM java:8-jre
-MAINTAINER Alexander Lukyanchikov <sqshq@sqshq.com>
+FROM goodrainapps/maven:jdk8-alpine
+MAINTAINER guox <guox@goodrain.com>
 
-ADD ./target/registry.jar /app/
-CMD ["java", "-Xmx200m", "-jar", "/app/registry.jar"]
+# package
+COPY . /app
+WORKDIR /app
+
+CMD ["java", "-Xmx200m","-Dserver.port=8761","-jar", "/app/target/registry.jar"]
 
 EXPOSE 8761

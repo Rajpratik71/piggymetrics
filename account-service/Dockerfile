@@ -1,7 +1,12 @@
-FROM java:8-jre
-MAINTAINER Alexander Lukyanchikov <sqshq@sqshq.com>
+FROM goodrainapps/maven:jdk8-alpine
+MAINTAINER guox <guox@goodrain.com>
 
-ADD ./target/account-service.jar /app/
-CMD ["java", "-Xmx200m", "-jar", "/app/account-service.jar"]
+# Caching Maven dependencies
+WORKDIR /app
+
+# package
+COPY . /app
+
+CMD ["java", "-Xmx200m", "-jar", "/app/target/account-service.jar"]
 
 EXPOSE 6000
