@@ -1,0 +1,102 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {}, 
+    "resources": [
+        {
+            "type": "Microsoft.AppPlatform/Spring",
+            "apiVersion": "2019-05-01-preview",
+            "name": "mg-spring-cloud",
+            "location": "eastus",
+            "sku": {
+                "name": "S0",
+                "tier": "Standard"
+            },
+            "properties": {
+                "configServerProperties": {
+                    "configServer": {
+                        "gitProperty": {
+                            "repositories": [],
+                            "uri": "https://github.com/Azure-Samples/piggymetrics-config",
+                            "searchPaths": []
+                        }
+                    }
+                },
+                "trace": {
+                    "enabled": true,
+                    "appInsightInstrumentationKey": "ccf7930b-f123-4c5a-9280-a07b6569bb0e"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.AppPlatform/Spring/apps",
+            "apiVersion": "2019-05-01-preview",
+            "name": "mg-spring-cloud/account-service",
+            "location": "eastus",
+            "dependsOn": [
+                "[resourceId('Microsoft.AppPlatform/Spring', 'mg-spring-cloud')]"
+            ],
+            "properties": {
+                "public": false,
+                "activeDeploymentName": "default",
+                "fqdn": "mg-spring-cloud.azuremicroservices.io",
+                "httpsOnly": false,
+                "temporaryDisk": {
+                    "sizeInGB": 5,
+                    "mountPath": "/tmp"
+                },
+                "persistentDisk": {
+                    "sizeInGB": 0,
+                    "mountPath": "/persistent"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.AppPlatform/Spring/apps",
+            "apiVersion": "2019-05-01-preview",
+            "name": "mg-spring-cloud/auth-service",
+            "location": "eastus",
+            "dependsOn": [
+                "[resourceId('Microsoft.AppPlatform/Spring', 'mg-spring-cloud')]"
+            ],
+            "properties": {
+                "public": false,
+                "activeDeploymentName": "default",
+                "fqdn": "mg-spring-cloud.azuremicroservices.io",
+                "httpsOnly": false,
+                "temporaryDisk": {
+                    "sizeInGB": 5,
+                    "mountPath": "/tmp"
+                },
+                "persistentDisk": {
+                    "sizeInGB": 0,
+                    "mountPath": "/persistent"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.AppPlatform/Spring/apps",
+            "apiVersion": "2019-05-01-preview",
+            "name": "mg-spring-cloud/gateway",
+            "location": "eastus",
+            "dependsOn": [
+                "[resourceId('Microsoft.AppPlatform/Spring', 'mg-spring-cloud')]"
+            ],
+            "properties": {
+                "public": false,
+                "activeDeploymentName": "default",
+                "fqdn": "mg-spring-cloud.azuremicroservices.io",
+                "httpsOnly": false,
+                "temporaryDisk": {
+                    "sizeInGB": 5,
+                    "mountPath": "/tmp"
+                },
+                "persistentDisk": {
+                    "sizeInGB": 0,
+                    "mountPath": "/persistent"
+                }
+            }
+        }
+    ]
+}
