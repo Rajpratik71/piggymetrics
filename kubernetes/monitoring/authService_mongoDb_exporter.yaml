@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-exporter-service
+  labels:
+    project: piggymetrics
+    tier: database
+    monitor: mongodb
+    app: piggy-mongodb-exporter
+    service: piggy-mongodb-exporter
+spec:
+  ports:
+    - name: mongodb-monitor
+      port: 9104
+      targetPort: 9104
+  selector:
+    project: piggymetrics
+    tier: database
+    app: piggy-mongodb-exporter
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: piggy-mongodb-exporter
+  labels:
+    project: piggymetrics
+    tier: database
+    service: auth
+    app: piggy-mongodb-exporter
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        project: piggymetrics
+        tier: database
+        app: piggy-mongodb-exporter
+    spec:
+      containers:
+        - image: eses/mongodb_exporter
+          name: piggy-mongodb-exporter
+          env:
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: piggymetrics
+                  key: auth_mongodb_password
+            - name: MONGODB_URI
+              value: mongodb://user:AUTH_MONGODB_PASSWORD@auth-mongodb:27017/piggymetrics
+          ports:
+            - containerPort: 9104
+          resources: {}
+      restartPolicy: Always
+status: {}

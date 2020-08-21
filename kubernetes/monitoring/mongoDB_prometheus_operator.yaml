@@ -1,0 +1,19 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mongo-monitor
+  labels:
+    app: piggy-mongodb-exporter
+  namespace: piggymetrics
+spec:
+  endpoints:
+    - honorLabels: false
+      interval: 15s
+      path: /metrics
+      port: mongodb-monitor
+      scheme: http
+  selector:
+    matchLabels:
+      project: piggymetrics
+      app: auth-mongodb

@@ -1,23 +1,26 @@
-[![Build Status](https://travis-ci.org/sqshq/PiggyMetrics.svg?branch=master)](https://travis-ci.org/sqshq/PiggyMetrics)
-[![codecov.io](https://codecov.io/github/sqshq/PiggyMetrics/coverage.svg?branch=master)](https://codecov.io/github/sqshq/PiggyMetrics?branch=master)
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/sqshq/PiggyMetrics/blob/master/LICENCE)
-[![Join the chat at https://gitter.im/sqshq/PiggyMetrics](https://badges.gitter.im/sqshq/PiggyMetrics.svg)](https://gitter.im/sqshq/PiggyMetrics?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-# Piggy Metrics
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/afermon/PiggyMetrics-Kubernetes/blob/master/LICENCE)
 
-This is a tutorial project, which demonstrates [Microservice Architecture Pattern](http://martinfowler.com/microservices/) using Spring Boot, Spring Cloud and Docker.
-With a pretty neat user interface, by the way.
+# Piggy Metrics (Kubernetes)
 
-![](https://cloud.githubusercontent.com/assets/6069066/13864234/442d6faa-ecb9-11e5-9929-34a9539acde0.png)
-![Piggy Metrics](https://cloud.githubusercontent.com/assets/6069066/13830155/572e7552-ebe4-11e5-918f-637a49dff9a2.gif)
+**A simple way to deal with personal finances**
+
+This is a proof-of-concept application, which demonstrates [Microservice Architecture Pattern](http://martinfowler.com/microservices/) using Spring Boot, Spring Cloud, Docker and Kubernetes. With a pretty neat user interface, by the way.
+
+![Piggy Metrics](https://github.com/afermon/PiggyMetrics-Kubernetes/raw/master/resources/piggymetrics.gif)
 
 ## Functional services
 
 PiggyMetrics was decomposed into three core microservices. All of them are independently deployable applications, organized around certain business domains.
 
-<img width="880" alt="Functional services" src="https://cloud.githubusercontent.com/assets/6069066/13900465/730f2922-ee20-11e5-8df0-e7b51c668847.png">
+![Functional services](https://github.com/afermon/PiggyMetrics-Kubernetes/raw/master/resources/functional-services.png)
 
 #### Account service
+
+[![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-account-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-account-service) [![codecov](https://codecov.io/gh/afermon/PiggyMetrics-account-service/branch/master/graph/badge.svg)](https://codecov.io/gh/afermon/PiggyMetrics-account-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/afermon/PiggyMetrics-account-service/blob/master/LICENCE)
+
+##### Repository [afermon/PiggyMetrics-account-service](https://github.com/afermon/PiggyMetrics-account-service)
+
 Contains general user input logic and validation: incomes/expenses items, savings and account settings.
 
 Method	| Path	| Description	| User authenticated	| Available from UI
@@ -30,6 +33,11 @@ POST	| /accounts/	| Register new account	|   | ×
 
 
 #### Statistics service
+
+[![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-statistics-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-statistics-service) [![codecov](https://codecov.io/gh/afermon/PiggyMetrics-statistics-service/branch/master/graph/badge.svg)](https://codecov.io/gh/afermon/PiggyMetrics-statistics-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]((https://github.com/afermon/PiggyMetrics-statistics-service/blob/master/LICENCE))
+
+##### Repository [afermon/PiggyMetrics-statistics-service](https://github.com/afermon/PiggyMetrics-statistics-service)
+
 Performs calculations on major statistics parameters and captures time series for each account. Datapoint contains values, normalized to base currency and time period. This data is used to track cash flow dynamics in account lifetime.
 
 Method	| Path	| Description	| User authenticated	| Available from UI
@@ -41,6 +49,11 @@ PUT	| /statistics/{account}	| Create or update time series datapoint for specifi
 
 
 #### Notification service
+
+[![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-notification-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-notification-service) [![codecov](https://codecov.io/gh/afermon/PiggyMetrics-notification-service/branch/master/graph/badge.svg)](https://codecov.io/gh/afermon/PiggyMetrics-notification-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]((https://github.com/afermon/PiggyMetrics-notification-service/blob/master/LICENCE))
+
+##### Repository [afermon/PiggyMetrics-notification-service](https://github.com/afermon/PiggyMetrics-notification-service)
+
 Stores users contact information and notification settings (like remind and backup frequency). Scheduled worker collects required information from other services and sends e-mail messages to subscribed customers.
 
 Method	| Path	| Description	| User authenticated	| Available from UI
@@ -49,17 +62,24 @@ GET	| /notifications/settings/current	| Get current account notification setting
 PUT	| /notifications/settings/current	| Save current account notification settings	| × | ×
 
 #### Notes
-- Each microservice has its own database, so there is no way to bypass API and access persistance data directly.
+- Each microservice has it's own database, so there is no way to bypass API and access persistance data directly. [![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-mongodb-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-mongodb-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/afermon/PiggyMetrics-mongodb-service/blob/master/LICENCE) Repository [afermon/PiggyMetrics-mongodb-service](https://github.com/afermon/PiggyMetrics-mongodb-service)
 - In this project, I use MongoDB as a primary database for each service. It might also make sense to have a polyglot persistence architecture (сhoose the type of db that is best suited to service requirements).
 - Service-to-service communication is quite simplified: microservices talking using only synchronous REST API. Common practice in a real-world systems is to use combination of interaction styles. For example, perform synchronous GET request to retrieve data and use asynchronous approach via Message broker for create/update operations in order to decouple services and buffer messages. However, this brings us to the [eventual consistency](http://martinfowler.com/articles/microservice-trade-offs.html#consistency) world.
 
 ## Infrastructure services
 There's a bunch of common patterns in distributed systems, which could help us to make described core services work. [Spring cloud](http://projects.spring.io/spring-cloud/) provides powerful tools that enhance Spring Boot applications behaviour to implement those patterns. I'll cover them briefly.
-<img width="880" alt="Infrastructure services" src="https://cloud.githubusercontent.com/assets/6069066/13906840/365c0d94-eefa-11e5-90ad-9d74804ca412.png">
+
+![Infrastructure services](https://github.com/afermon/PiggyMetrics-Kubernetes/raw/master/resources/infrastructure-services.png)
+
 ### Config service
+
+[![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-config-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-config-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/afermon/PiggyMetrics-config-service/blob/master/LICENCE)
+
+##### Repository [afermon/PiggyMetrics-config-service](https://github.com/afermon/PiggyMetrics-config-service)
+
 [Spring Cloud Config](http://cloud.spring.io/spring-cloud-config/spring-cloud-config.html) is horizontally scalable centralized configuration service for distributed systems. It uses a pluggable repository layer that currently supports local storage, Git, and Subversion. 
 
-In this project, I use `native profile`, which simply loads config files from the local classpath. You can see `shared` directory in [Config service resources](https://github.com/sqshq/PiggyMetrics/tree/master/config/src/main/resources). Now, when Notification-service requests its configuration, Config service responses with `shared/notification-service.yml` and `shared/application.yml` (which is shared between all client applications).
+In this project, I use `native profile`, which simply loads config files from the local classpath. You can see `shared` directory in [Config service resources](https://github.com/afermon/PiggyMetrics-config-service/tree/master/src/main/resources). Now, when Notification-service requests it's configuration, Config service responses with `shared/notification-service.yml` and `shared/application.yml` (which is shared between all client applications).
 
 ##### Client side usage
 Just build Spring Boot application with `spring-cloud-starter-config` dependency, autoconfiguration will do the rest.
@@ -76,7 +96,7 @@ spring:
 ```
 
 ##### With Spring Cloud Config, you can change app configuration dynamically. 
-For example, [EmailService bean](https://github.com/sqshq/PiggyMetrics/blob/master/notification-service/src/main/java/com/piggymetrics/notification/service/EmailServiceImpl.java) was annotated with `@RefreshScope`. That means, you can change e-mail text and subject without rebuild and restart Notification service application.
+For example, [EmailService bean](https://github.com/afermon/PiggyMetrics-notification-service/blob/master/src/main/java/com/piggymetrics/notification/service/EmailServiceImpl.java) was annotated with `@RefreshScope`. That means, you can change e-mail text and subject without rebuild and restart Notification service application.
 
 First, change required properties in Config server. Then, perform refresh request to Notification service:
 `curl -H "Authorization: Bearer #token#" -XPOST http://127.0.0.1:8000/notifications/refresh`
@@ -86,14 +106,19 @@ Also, you could use Repository [webhooks to automate this process](http://cloud.
 ##### Notes
 - There are some limitations for dynamic refresh though. `@RefreshScope` doesn't work with `@Configuration` classes and doesn't affect `@Scheduled` methods
 - `fail-fast` property means that Spring Boot application will fail startup immediately, if it cannot connect to the Config Service.
-- There are significant [security notes](https://github.com/sqshq/PiggyMetrics#security) below
+- There are significant [security notes](https://github.com/afermon/PiggyMetrics-Kubernetes#security) below
 
 ### Auth service
+
+[![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-auth-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-auth-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/afermon/PiggyMetrics-auth-service/blob/master/LICENCE)
+
+##### Repository [afermon/PiggyMetrics-auth-service](https://github.com/afermon/PiggyMetrics-auth-service)
+
 Authorization responsibilities are completely extracted to separate server, which grants [OAuth2 tokens](https://tools.ietf.org/html/rfc6749) for the backend resource services. Auth Server is used for user authorization as well as for secure machine-to-machine communication inside a perimeter.
 
 In this project, I use [`Password credentials`](https://tools.ietf.org/html/rfc6749#section-4.3) grant type for users authorization (since it's used only by native PiggyMetrics UI) and [`Client Credentials`](https://tools.ietf.org/html/rfc6749#section-4.4) grant for microservices authorization.
 
-Spring Cloud Security provides convenient annotations and autoconfiguration to make this really easy to implement from both server and client side. You can learn more about it in [documentation](http://cloud.spring.io/spring-cloud-security/spring-cloud-security.html) and check configuration details in [Auth Server code](https://github.com/sqshq/PiggyMetrics/tree/master/auth-service/src/main/java/com/piggymetrics/auth).
+Spring Cloud Security provides convenient annotations and autoconfiguration to make this really easy to implement from both server and client side. You can learn more about it in [documentation](http://cloud.spring.io/spring-cloud-security/spring-cloud-security.html) and check configuration details in [Auth Server code](https://github.com/afermon/PiggyMetrics-auth-service/tree/master/src/main/java/com/piggymetrics/auth).
 
 From the client side, everything works exactly the same as with traditional session-based authorization. You can retrieve `Principal` object from request, check user's roles and other stuff with expression-based access control and `@PreAuthorize` annotation.
 
@@ -108,9 +133,14 @@ public List<DataPoint> getStatisticsByAccountName(@PathVariable String name) {
 ```
 
 ### API Gateway
+
+[![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-gateway-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-gateway-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/afermon/PiggyMetrics-gateway-service/blob/master/LICENCE)
+
+##### Repository [afermon/PiggyMetrics-gateway-service](https://github.com/afermon/PiggyMetrics-gateway-service)
+
 As you can see, there are three core services, which expose external API to client. In a real-world systems, this number can grow very quickly as well as whole system complexity. Actually, hundreds of services might be involved in rendering of one complex webpage.
 
-In theory, a client could make requests to each of the microservices directly. But obviously, there are challenges and limitations with this option, like necessity to know all endpoints addresses, perform http request for each piece of information separately, merge the result on a client side. Another problem is non web-friendly protocols which might be used on the backend.
+In theory, a client could make requests to each of the microservices directly. But obviously, there are challenges and limitations with this option, like necessity to know all endpoints addresses, perform http request for each peace of information separately, merge the result on a client side. Another problem is non web-friendly protocols which might be used on the backend.
 
 Usually a much better approach is to use API Gateway. It is a single entry point into the system, used to handle requests by routing them to the appropriate backend service or by invoking multiple backend services and [aggregating the results](http://techblog.netflix.com/2013/01/optimizing-netflix-api.html). Also, it can be used for authentication, insights, stress and canary testing, service migration, static response handling, active traffic management.
 
@@ -126,9 +156,13 @@ zuul:
 
 ```
 
-That means all requests starting with `/notifications` will be routed to Notification service. There is no hardcoded address, as you can see. Zuul uses [Service discovery](https://github.com/sqshq/PiggyMetrics/blob/master/README.md#service-discovery) mechanism to locate Notification service instances and also [Circuit Breaker and Load Balancer](https://github.com/sqshq/PiggyMetrics/blob/master/README.md#http-client-load-balancer-and-circuit-breaker), described below.
+That means all requests starting with `/notifications` will be routed to Notification service. There is no hardcoded address, as you can see. Zuul uses [Service discovery](https://github.com/afermon/PiggyMetrics-Kubernetes/blob/master/README.md#service-discovery) mechanism to locate Notification service instances and also [Circuit Breaker and Load Balancer](https://github.com/afermon/PiggyMetrics-Kubernetes/blob/master/README.md#http-client-load-balancer-and-circuit-breaker), described below.
 
 ### Service discovery
+
+[![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-registry-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-registry-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/afermon/PiggyMetrics-registry-service/blob/master/LICENCE)
+
+##### Repository [afermon/PiggyMetrics-registry-service](https://github.com/afermon/PiggyMetrics-registry-service)
 
 Another commonly known architecture pattern is Service discovery. It allows automatic detection of network locations for service instances, which could have dynamically assigned addresses because of auto-scaling, failures and upgrades.
 
@@ -184,15 +218,23 @@ public interface StatisticsServiceClient {
 
 ### Monitor dashboard
 
-In this project configuration, each microservice with Hystrix on board pushes metrics to Turbine via Spring Cloud Bus (with AMQP broker). The Monitoring project is just a small Spring boot application with [Turbine](https://github.com/Netflix/Turbine) and [Hystrix Dashboard](https://github.com/Netflix-Skunkworks/hystrix-dashboard).
+[![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-monitoring-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-monitoring-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/afermon/PiggyMetrics-monitoring-service/blob/master/LICENCE)
 
-See below [how to get it up and running](https://github.com/sqshq/PiggyMetrics#how-to-run-all-the-things).
+##### Repository [afermon/PiggyMetrics-registry-service](https://github.com/afermon/PiggyMetrics-registry-service)
+
+[![CircleCI](https://circleci.com/gh/afermon/PiggyMetrics-turbine-stream-service.svg?style=svg)](https://circleci.com/gh/afermon/PiggyMetrics-turbine-stream-service) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/afermon/PiggyMetrics-turbine-stream-service/blob/master/LICENCE)
+
+##### Repository [afermon/PiggyMetrics-turbine-stream-service](https://github.com/afermon/PiggyMetrics-turbine-stream-service)
+
+In this project configuration, each microservice with Hystrix on board pushes metrics to Turbine via Spring Cloud Bus (with AMQP broker). The Monitoring project is just a small Spring boot application with [Turbine](https://github.com/Netflix/Turbine) and [Hystrix Dashboard](https://github.com/Netflix/Hystrix/tree/master/hystrix-dashboard).
+
+See below [how to get it up and running](https://github.com/afermon/PiggyMetrics-Kubernetes#how-to-run-all-the-things).
 
 Let's see our system behavior under load: Account service calls Statistics service and it responses with a vary imitation delay. Response timeout threshold is set to 1 second.
 
-<img width="880" src="https://cloud.githubusercontent.com/assets/6069066/14194375/d9a2dd80-f7be-11e5-8bcc-9a2fce753cfe.png">
+![Hystrix Dashboard](https://github.com/afermon/PiggyMetrics-Kubernetes/raw/master/resources/hystrix-dashboard.png)
 
-<img width="212" src="https://cloud.githubusercontent.com/assets/6069066/14127349/21e90026-f628-11e5-83f1-60108cb33490.gif">	| <img width="212" src="https://cloud.githubusercontent.com/assets/6069066/14127348/21e6ed40-f628-11e5-9fa4-ed527bf35129.gif"> | <img width="212" src="https://cloud.githubusercontent.com/assets/6069066/14127346/21b9aaa6-f628-11e5-9bba-aaccab60fd69.gif"> | <img width="212" src="https://cloud.githubusercontent.com/assets/6069066/14127350/21eafe1c-f628-11e5-8ccd-a6b6873c046a.gif">
+![0ms](https://github.com/afermon/PiggyMetrics-Kubernetes/raw/master/resources/hystrix-0ms-delay.gif)	| ![500ms](https://github.com/afermon/PiggyMetrics-Kubernetes/raw/master/resources/hystrix-500ms-delay.gif) | ![800ms](https://github.com/afermon/PiggyMetrics-Kubernetes/raw/master/resources/hystrix-800ms-delay.gif) | ![1100ms](https://github.com/afermon/PiggyMetrics-Kubernetes/raw/master/resources/hystrix-1100ms-delay.gif)
 --- |--- |--- |--- |
 | `0 ms delay` | `500 ms delay` | `800 ms delay` | `1100 ms delay`
 | Well behaving system. The throughput is about 22 requests/second. Small number of active threads in Statistics service. The median service time is about 50 ms. | The number of active threads is growing. We can see purple number of thread-pool rejections and therefore about 30-40% of errors, but circuit is still closed. | Half-open state: the ratio of failed commands is more than 50%, the circuit breaker kicks in. After sleep window amount of time, the next request is let through. | 100 percent of the requests fail. The circuit is now permanently open. Retry after sleep time won't close circuit again, because the single request is too slow.
@@ -200,7 +242,7 @@ Let's see our system behavior under load: Account service calls Statistics servi
 ### Log analysis
 
 Centralized logging can be very useful when attempting to identify problems in a distributed environment. Elasticsearch, Logstash and Kibana stack lets you search and analyze your logs, utilization and network activity data with ease.
-Ready-to-go Docker configuration described [in my other project](http://github.com/sqshq/ELK-docker).
+Ready-to-go Docker configuration described [in sqshq other project](http://github.com/sqshq/ELK-docker).
 
 ### Distributed tracing
 
@@ -234,17 +276,42 @@ Deploying microservices, with their interdependence, is much more complex proces
 
 Here is a simple Continuous Delivery workflow, implemented in this project:
 
-<img width="880" src="https://cloud.githubusercontent.com/assets/6069066/14159789/0dd7a7ce-f6e9-11e5-9fbb-a7fe0f4431e3.png">
+![Delivery workflow](https://github.com/afermon/PiggyMetrics-Kubernetes/raw/master/resources/infrastructure-automation.png)
 
 In this [configuration](https://github.com/sqshq/PiggyMetrics/blob/master/.travis.yml), Travis CI builds tagged images for each successful git push. So, there are always `latest` image for each microservice on [Docker Hub](https://hub.docker.com/r/sqshq/) and older images, tagged with git commit hash. It's easy to deploy any of them and quickly rollback, if needed.
 
 ## How to run all the things?
 
+### Kubernetes
+
+#### Local
+Windows or Mac you can get [Docker for Windows](https://www.docker.com/products/docker-desktop) and enable Kubernetes. This application runnign on your local computer may comsume a lot of resources, please cupdate docker for desktop settings to have at least `6 Gb` of RAM. Also, you can install the [Kubernetes WEB UI](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/) and it will be easier to confirm the pod status and check the logs for any failures. 
+
+ - `cd .\kubernetes`
+ - Execute `kubectl create -f .\<deployment file>` for each file in order and wait for each individual service to be runing correctly. config, registry and gateway should be available first for other services to start correctly. 
+- Gateway will be accesible at [http://localhost:30080](http://localhost:30080)
+
+##### Access the other services:
+To access any of the other services internal to the kubernetes cluster you can use the proxy `kubectl proxy` and then use the links below
+
+| Service                  | Comments              | URL                      |
+|--------------------------|-----------------------|--------------------------|            
+| Gateway                  |                       |http://localhost:30080|
+| Eureka Dashboard         |                       |http://localhost:8001/api/v1/namespaces/default/services/http:registry:8761/proxy/ |
+| Hystrix Dashboard        | Turbine stream link: http://turbine-stream-service:8080/turbine/turbine.stream | http://localhost:8001/api/v1/namespaces/default/services/http:monitoring:9000/proxy/hystrix/monitor?stream=http%3A%2F%2Fturbine-stream-service%3A8080%2Fturbine%2Fturbine.stream&title=PiggyMetrics |
+| RabbitMq management | (default login/password: guest/guest) | http://localhost:8001/api/v1/namespaces/default/services/http:rabbitmq:15672/proxy/ |
+
+If you would like to delete all the resources and start over, you can execute `kubectl delete svc,deploy -l project=piggymetrics`
+
+#### Google Kubernetes Engine
+  * TODO
+
+### Docker
 Keep in mind, that you are going to start 8 Spring Boot applications, 4 MongoDB instances and RabbitMq. Make sure you have `4 Gb` RAM available on your machine. You can always run just vital services though: Gateway, Registry, Config, Auth Service and Account Service.
 
 #### Before you start
 - Install Docker and Docker Compose.
-- Change environment variable values in `.env` file for more security or leave it as it is.
+- Export environment variables: `CONFIG_SERVICE_PASSWORD`, `NOTIFICATION_SERVICE_PASSWORD`, `STATISTICS_SERVICE_PASSWORD`, `ACCOUNT_SERVICE_PASSWORD`, `MONGODB_PASSWORD` (make sure they were exported: `printenv`)
 - Make sure to build the project: `mvn package [-DskipTests]`
 
 #### Production mode
@@ -252,23 +319,7 @@ In this mode, all latest images will be pulled from Docker Hub.
 Just copy `docker-compose.yml` and hit `docker-compose up`
 
 #### Development mode
-If you'd like to build images yourself (with some changes in the code, for example), you have to clone all repository and build artifacts with maven. Then, run `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
-
-`docker-compose.dev.yml` inherits `docker-compose.yml` with additional possibility to build images locally and expose all containers ports for convenient development.
-
-If you'd like to start applications in Intellij Idea you need to either use [EnvFile plugin](https://plugins.jetbrains.com/plugin/7861-envfile) or manually export environment variables listed in `.env` file (make sure they were exported: `printenv`)
-
-### Docker plugin
-We are using dockerfile-maven-plugin for docker building and pushing. 
-
-Build
-` mvn clean package -DskipTests `
-
-Pushing
-` mvn deploy`  or ` mvn dockerfile:push`
-
-If you want to add auth info
-` mvn dockerfile:push -Ddockerfile.username=jc8futao -Ddockerfile.password=xxxx`
+If you'd like to build images yourself (with some changes in the code, for example), you have to clone all repository and build artifacts with maven. Then, build each individual image and update the docker conposer file with each individual image name.
 
 #### Important endpoints
 - http://localhost:80 - Gateway
@@ -277,22 +328,24 @@ If you want to add auth info
 - http://localhost:15672 - RabbitMq management (default login/password: guest/guest)
 
 #### Notes
-All Spring Boot applications require already running [Config Server](https://github.com/sqshq/PiggyMetrics#config-service) for startup. But we can start all containers simultaneously because of `depends_on` docker-compose option.
+All Spring Boot applications require already running [Config Server](https://github.com/afemron/PiggyMetrics-Kubernetes#config-service) for startup. But we can start all containers simultaneously because of `depends_on` docker-compose option.
 
 Also, Service Discovery mechanism needs some time after all applications startup. Any service is not available for discovery by clients until the instance, the Eureka server and the client all have the same metadata in their local cache, so it could take 3 heartbeats. Default heartbeat period is 30 seconds.
 
-## Json Logs
-Using log4j2 to generate json formatted logs.
+## Todo
 
-### fix log4j2 and jboss-logging confilict issue
-1. add JVM param ` -Dorg.jboss.logging.provider=slf4j`
-2. add dependency
-```      
-        <dependency>
-           <groupId>org.springframework.cloud</groupId>
-           <artifactId>spring-cloud-starter-zipkin</artifactId>
-        </dependency>
-```
-## Contributions are welcome!
+* Kubernetes Config Maps
+* Kubernetes Service Discovery
+
+## Credits
+
+* Forked from [sqshq/PiggyMetrics](https://github.com/sqshq/PiggyMetrics)
+
+## Contributions welcome!
 
 PiggyMetrics is open source, and would greatly appreciate your help. Feel free to suggest and implement improvements.
+
+## Grant service Accont
+` oc create serviceaccount mongouser `
+
+` oc adm policy add-scc-to-user anyuid -z mongouser`

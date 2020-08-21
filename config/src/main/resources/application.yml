@@ -10,6 +10,17 @@ spring:
     user:
       password: ${CONFIG_SERVICE_PASSWORD}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'prometheus'
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 server:
   port: 8888
 
+logging:
+  config: classpath:log4j2.yml

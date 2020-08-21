@@ -43,3 +43,6 @@ zuul:
 
 server:
   port: 4000
+
+logging:
+  config: classpath:log4j2.yml

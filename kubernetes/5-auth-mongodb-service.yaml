@@ -1,0 +1,77 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-mongodb
+  labels:
+    project: piggymetrics
+    tier: database
+    app: auth-mongodb
+spec:
+  ports:
+  - name: mongo
+    port: 27017
+    targetPort: 27017
+  - name: mongodb-monitor
+    port: 9104
+    targetPort: 9104
+  selector:
+    project: piggymetrics
+    tier: database
+    app: auth-mongodb
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: auth-mongodb
+  labels:
+    project: piggymetrics
+    tier: database
+    app: auth-mongodb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        project: piggymetrics
+        tier: database
+        app: auth-mongodb
+    spec:
+      serviceAccountName: mongouser
+      containers:
+      - image: jc8futao/piggy-mongodb:latest
+        name: auth-mongodb
+        env:
+          - name: MONGODB_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: piggymetrics
+                key: auth_mongodb_password
+          - name: MONGODB_USER
+            value: user
+          - name: MONGODB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: piggymetrics
+                key: auth_mongodb_password
+          - name: MONGODB_DATABASE
+            value: piggymetrics
+        ports:
+          - containerPort: 27017
+        resources: {}
+      - image: eses/mongodb_exporter
+        name: piggy-mongodb-exporter
+        env:
+          - name: MONGODB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: piggymetrics
+                key: auth_mongodb_password
+          - name: MONGODB_URI
+            value: mongodb://user:AUTH_MONGODB_PASSWORD@localhost:27017/piggymetrics
+        ports:
+          - containerPort: 9104
+      restartPolicy: Always
+status: {}

@@ -37,6 +37,7 @@ services:
 
   gateway:
     environment:
+      COMPOSE_PROJECT_NAME: gateway
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: sqshq/piggymetrics-gateway
     restart: always
@@ -52,6 +53,7 @@ services:
 
   auth-service:
     environment:
+      COMPOSE_PROJECT_NAME: auth-service
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
       STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
@@ -79,6 +81,7 @@ services:
 
   account-service:
     environment:
+      COMPOSE_PROJECT_NAME: account-service
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
@@ -105,6 +108,7 @@ services:
 
   statistics-service:
     environment:
+      COMPOSE_PROJECT_NAME: statistics-service
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
       STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
@@ -130,6 +134,7 @@ services:
 
   notification-service:
     environment:
+      COMPOSE_PROJECT_NAME: notification-service
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
       NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
@@ -182,3 +187,8 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411

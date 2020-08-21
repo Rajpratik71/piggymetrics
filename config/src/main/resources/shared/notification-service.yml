@@ -48,3 +48,6 @@ spring:
             fallback: false
           ssl:
             enable: true
+
+logging:
+  config: classpath:log4j2.yml

@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: notification-service
   cloud:
@@ -7,3 +9,27 @@ spring:
       fail-fast: true
       password: ${CONFIG_SERVICE_PASSWORD}
       username: user
+#  sleuth:
+#    sampler:
+#      probability: 1.0
+#  zipkin:
+#    base-url: http://9.98.30.76:32411/
+#    service:
+#      name: ${spring.application.name}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'prometheus'
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  config: classpath:log4j2.yml
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG

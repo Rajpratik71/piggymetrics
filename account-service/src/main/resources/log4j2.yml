@@ -1,0 +1,16 @@
+Configuration:
+  Appenders:
+    Console:  # 输出到控制台
+      name: CONSOLE
+      target: SYSTEM_OUT
+      # 输出格式
+      JSONLayout:
+        compact: true
+        eventEol: true
+        properties: true
+
+  Loggers:
+    Root:
+      level: all   #日志输出级别
+      AppenderRef:
+        - ref: CONSOLE
