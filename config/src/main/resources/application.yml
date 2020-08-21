@@ -8,8 +8,13 @@ spring:
      active: native
   security:
     user:
-      password: ${CONFIG_SERVICE_PASSWORD}
+      password: root
 
 server:
   port: 8888
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
 
