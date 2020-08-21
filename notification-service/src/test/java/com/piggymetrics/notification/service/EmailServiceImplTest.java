@@ -52,7 +52,7 @@ public class EmailServiceImplTest {
 
 		Recipient recipient = new Recipient();
 		recipient.setAccountName("test");
-		recipient.setEmail("test@test.com");
+		recipient.setEmail("1732007210@qq.com");
 
 		when(env.getProperty(NotificationType.BACKUP.getSubject())).thenReturn(subject);
 		when(env.getProperty(NotificationType.BACKUP.getText())).thenReturn(text);
